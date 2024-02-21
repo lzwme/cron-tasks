@@ -1,0 +1,48 @@
+{
+  "name": "@lzwme/cron-tasks",
+  "version": "1.0.0",
+  "description": "A simple cron tasks manager based on Node.js",
+  "main": "src/index.mjs",
+  "bin": {
+    "tcron": "bin.js"
+  },
+  "type": "module",
+  "scripts": {
+    "version": "standard-version",
+    "release": "npm run version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cron",
+    "crontab",
+    "schedule",
+    "node-cron",
+    "cronjob"
+  ],
+  "repository": "https://github.com/lzwme/cron-tasks.git",
+  "author": {
+    "name": "renxia",
+    "email": "lzwy0820@qq.com",
+    "url": "https://lzw.me"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com"
+  },
+  "files": [
+    "src",
+    "bin.js",
+    "cron.config.sample.mjs"
+  ],
+  "dependencies": {
+    "@lzwme/fe-utils": "^1.6.0",
+    "cron": "^3.1.6"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0"
+  }
+}
