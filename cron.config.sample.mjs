@@ -1,6 +1,4 @@
-import { color, execSync } from '@lzwme/fe-utils';
-
-export default ({ logger }) => {
+export default async ({ logger, FeUtils: { execPromisfy } }) => {
   return {
     /** @type { import('cron').CronJobParams[] } */
     configList: [
@@ -11,13 +9,13 @@ export default ({ logger }) => {
         //   command: 'tsx',
         //   args: ['src/index.ts','--no-bot', '--ci'],
         //   options: {
-        //     cwd: 'D:\\coding\\lzwme\\_archive\\chatgpt-sites',
+        //     cwd: 'D:\\coding\\chatgpt-sites',
         //     stdio: 'inherit',
         //     windowsHide: true,
         //   }
         // },
-        onTick: () => {
-          const r = execSync('tsx src/index.ts --no-bot --ci', null, 'D:\\coding\\chatgpt-sites');
+        onTick: async () => {
+          const r = await execPromisfy('tsx src/index.ts --no-bot --ci', null, { cwd: 'D:\\coding\\chatgpt-sites' });
           if (r.stderr) logger.error(r.stderr);
         },
       },

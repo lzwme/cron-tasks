@@ -1,5 +1,13 @@
+/*
+ * @Author: renxia
+ * @Date: 2024-02-21 10:46:58
+ * @LastEditors: renxia
+ * @LastEditTime: 2024-02-22 09:12:13
+ * @Description:
+ */
 import { CronJob } from 'cron';
-import { NLogger, color } from '@lzwme/fe-utils';
+import * as FeUtils from '@lzwme/fe-utils';
+import { NLogger, color, execSync } from '@lzwme/fe-utils';
 import { dirname, resolve } from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -14,7 +22,7 @@ async function getConfig() {
     const configFile = resolve(dir, './cron.config.mjs');
     if (fs.existsSync(configFile)) {
       const { default: cronConfig } = await import(pathToFileURL(configFile));
-      return cronConfig({ logger });
+      return cronConfig({ logger, execSync, FeUtils });
     }
   }
 
@@ -30,13 +38,14 @@ async function cronJob() {
     const job = CronJob.from({
       timeZone: 'Asia/Shanghai',
       onComplete: () => {
-        logger.info(`任务执行完成：[${config.desc}]`);
+        logger.info(`任务执行完成：[${color.green(config.desc)}]`);
       },
       ...config,
-      onTick: () => {
+      onTick: async () => {
         if (config.onTick) {
           try {
-            config.onTick();
+            logger.info(`任务执行中：[${color.cyan(config.desc)}]`);
+            await config.onTick.call(config);
           } catch (e) {
             logger.error(e);
           }
